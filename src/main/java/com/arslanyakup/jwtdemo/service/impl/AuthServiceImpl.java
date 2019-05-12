@@ -15,6 +15,7 @@ import com.arslanyakup.jwtdemo.exception.CustomException;
 import com.arslanyakup.jwtdemo.repository.UserRepository;
 import com.arslanyakup.jwtdemo.security.JwtTokenProvider;
 import com.arslanyakup.jwtdemo.service.AuthService;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -34,7 +35,7 @@ public class AuthServiceImpl implements AuthService {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 			return jwtTokenProvider.createToken(username, userRepository.findByUsername(username).getUserRoles());
 		} catch (Exception e) {
-			throw new CustomException("Invalid username or password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
+			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password supplied", ex);
 		}
 	}
 
