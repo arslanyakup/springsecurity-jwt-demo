@@ -34,7 +34,7 @@ public class AuthServiceImpl implements AuthService {
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 			return jwtTokenProvider.createToken(username, userRepository.findByUsername(username).getUserRoles());
-		} catch (Exception e) {
+		} catch (Exception ex) {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password supplied", ex);
 		}
 	}
